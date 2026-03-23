@@ -1,0 +1,31 @@
+{
+    "yt-dlp": {
+        "version_check": [
+            "yt-dlp",
+            "--version"
+        ],
+        "run": [
+            "yt-dlp",
+            "file:///{m3u8_path}",
+            "--enable-file-urls",
+            "-o",
+            "{output_file}"
+        ]
+    },
+    "ffmpeg": {
+        "version_check": [
+            "ffmpeg",
+            "-version"
+        ],
+        "run": [
+            "ffmpeg",
+            "-protocol_whitelist",
+            "file,http,https,tcp,tls,crypto",
+            "-i",
+            "{m3u8_path}",
+            "-c",
+            "copy",
+            "{output_file}"
+        ]
+    }
+}
