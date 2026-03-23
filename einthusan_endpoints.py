@@ -35,6 +35,7 @@ class EinthusianClient():
         self._session.headers.update(
             {'User-Agent': user_agent}
         )
+        self._movie_html = self._get_movie_page_html()
     
 
     def get_movie_playlist(self) -> str:
@@ -43,22 +44,33 @@ class EinthusianClient():
         return self._set_and_test_m3u8_prefix(raw_m3u8_data)
     
     
+
     @staticmethod
     def _ejlinks_decrypt_to_dict(b64_str):
         b64_str = b64_str[:10] + b64_str[-1] + b64_str[12:-1]
         return json.loads(base64.b64decode(b64_str + '==').decode())
     
 
-    def _get_csrf_token(self):
-        print(f'Attempting to fetch the csrf token...\nGET {self._movie_url}')
+    def _get_movie_page_html(self):
+        print(f'Attempting to movie main page...\nGET {self._movie_url}')
         resp = self._session.get(self._movie_url, timeout=_request_timeout)
         resp.raise_for_status()
         print('Success')
+        return resp.text
 
-        movie_html = resp.text
-        start = movie_html.find(_csrf_token_pattern) + len(_csrf_token_pattern)
-        end = movie_html.find('"', start)
-        return unescape(movie_html[start:end])
+    # gets the movie name from the <title> element.
+    # If a set of parenthesis is found (usually the movie year) it stops there instead
+    def get_movie_name(self):
+        title_tag = '<title>'
+        start = self._movie_html.find(title_tag) + len(title_tag)
+        end = min(self._movie_html.find(')') + 1, self._movie_html.find('</title>'))
+        return self._movie_html[start:end]
+
+
+    def _get_csrf_token(self):
+        start = self._movie_html.find(_csrf_token_pattern) + len(_csrf_token_pattern)
+        end = self._movie_html.find('"', start)
+        return unescape(self._movie_html[start:end])
 
     
     def _get_m3u8_data(self, csrf_token):
