@@ -7,6 +7,7 @@ from time import time
 
 import einthusan_endpoints
 import video_combiner
+import clipboard_reader
 
 desc = 'CLI tool that downloads movies from einthusan. Requires another CLI tool to combine the' \
 '.ts segments into a single video file. The default ones are ffmpeg and yt-dlp. You can modify' \
@@ -19,7 +20,7 @@ parser = argparse.ArgumentParser(description=desc)
 
 parser.add_argument(
     'urls', 
-    nargs='+', 
+    nargs='*', 
     metavar='URL', 
     help=f'One or more einthusian URLs'
 )
@@ -39,6 +40,10 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+# Experimental, favor using the arguments instead
+urls = args.urls
+if not urls:
+    urls = [clipboard_reader.read_clipboard()]
 
 base_path = os.path.dirname(os.path.realpath(__file__))
 
