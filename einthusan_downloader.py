@@ -53,7 +53,7 @@ user_agent = user_agents[randint(0, len(user_agents)-1)]
 vid_combiner = video_combiner.VideoCombiner(os.path.join(base_path, 'video_combiners.json'), args.method)
 
 # TODO add exception handling in this loop
-for movie_url in args.urls:
+for movie_url in urls:
 
     print(f'\n\nStarting download process for {movie_url}\n')
 
