@@ -50,7 +50,7 @@ The goal of the tool is to obtain the m3u8 playlist of each movie URL provided. 
 
 Once the m3u8 playlist has been obtained, it's saved in a local file, and used by a video processing tool like ffmpeg to download the individual .ts segments listed and combine them into one video file.
 
-For this reason, using the tool requires a video processing tool like FFmpeg that can take an m3u8 file as input. The script natively supports yt-dlp as well, that tool itself requires FFmpeg to work.
+For this reason, using the tool requires a video processing tool like FFmpeg that can take an m3u8 file as input. The script natively supports yt-dlp as well, though that tool itself requires FFmpeg to work.
 
 To use the script with another or your own video processor, add an entry for it in ```video_combiner.json```. Only the 2 binding variables already in use are supported.
 
