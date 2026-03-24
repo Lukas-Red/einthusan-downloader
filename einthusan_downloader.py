@@ -20,7 +20,7 @@ parser = argparse.ArgumentParser(description=desc)
 
 parser.add_argument(
     'urls', 
-    nargs='*', 
+    nargs='*',
     metavar='URL', 
     help=f'One or more einthusian URLs'
 )
